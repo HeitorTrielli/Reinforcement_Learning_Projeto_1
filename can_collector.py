@@ -39,6 +39,7 @@ class RobotState:
         self.hash_val = None
         self.deplete_rng = np.random.random()
         self.reward_rng = np.random.random()
+        self.died = False
 
     def hash(self):
         """Compute unique hash for the state."""
@@ -51,8 +52,10 @@ class RobotState:
             return [SEARCH, WAIT]
         elif self.battery_level == LOW_BATTERY:
             return [SEARCH, WAIT, RECHARGE]
-        else:
+        elif self.battery_level == DEAD_BATTERY:
             return [RECHARGE]
+        else:
+            raise ValueError("Invalid battery level")
 
     def next_state(self, action: Literal[0, 1, 2]):
         if action == SEARCH:
@@ -65,6 +68,7 @@ class RobotState:
                 if self.deplete_rng < BETA:
                     new_state = RobotState(battery_level=LOW_BATTERY)
                 else:
+                    self.died = True
                     new_state = RobotState(battery_level=DEAD_BATTERY)
 
         elif action == WAIT:
@@ -80,20 +84,23 @@ class RobotState:
 
     def get_reward(self, action: Literal[0, 1, 2]):
         if action == SEARCH:
+            if self.died:
+                self.died = False
+                return -3
+
             if self.reward_rng < REWARD_SEARCH:
                 return 1
-            else:
-                return 0
+            return 0
+
         elif action == WAIT:
             if self.reward_rng < REWARD_WAIT:
                 return 1
-            else:
-                return 0
+            return 0
+
         elif action == RECHARGE:
             if self.reward_rng < REWARD_RECHARGE:
                 return 1
-            else:
-                return 0
+            return 0
         else:
             raise ValueError("Invalid action")
 
