@@ -21,12 +21,16 @@ HIGH_BATTERY = 0
 LOW_BATTERY = 1
 DEAD_BATTERY = 2
 
-ALPHA = 0.7
-BETA = 1
+ALPHA = 0.6
+BETA = 0.4
 
-REWARD_SEARCH = 0.8
-REWARD_WAIT = 0.3
-REWARD_RECHARGE = 0
+REWARD_SEARCH = 0.7
+REWARD_WAIT = 0.5
+DEAD_BATTERY_REWARD = -3
+REWARD_RECHARGE = 0.0
+
+EPSILON = 0.3
+DISCOUNT = 0.9
 
 
 class RobotState:
@@ -83,7 +87,7 @@ class RobotState:
     def get_reward(self, action: Literal[0, 1, 2]):
         if action == SEARCH:
             if self.battery_level == LOW_BATTERY and self.deplete_rng >= BETA:
-                return -3
+                return DEAD_BATTERY_REWARD
 
             if self.reward_rng < REWARD_SEARCH:
                 return 1
