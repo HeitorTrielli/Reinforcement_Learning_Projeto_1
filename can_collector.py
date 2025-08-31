@@ -13,10 +13,6 @@ from typing import Literal
 
 import numpy as np
 
-BOARD_ROWS = 3
-BOARD_COLS = 3
-BOARD_SIZE = BOARD_ROWS * BOARD_COLS
-
 SEARCH = 0
 WAIT = 1
 RECHARGE = 2
