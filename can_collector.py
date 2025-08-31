@@ -17,31 +17,59 @@ BOARD_ROWS = 3
 BOARD_COLS = 3
 BOARD_SIZE = BOARD_ROWS * BOARD_COLS
 
+SEARCH = 0
+WAIT = 1
+RECHARGE = 2
+
+HIGH_BATTERY = 0
+LOW_BATTERY = 1
+DEAD_BATTERY = 2
+
+ALPHA = 0.7
+BETA = 1
+
 
 class RobotState:
-    def __init__(self, max_steps: int = 10):
-        self.data = np.zeros((3 * 2 * max_steps))
-        self.end = None
+    def __init__(self, battery_level):
+        self.battery_level = battery_level
+        self.hash_val = None
 
     def hash(self):
-        battery_map = {"high": 0, "low": 1, "dead": 2}
-        location_map = {"outside": 0, "home": 1}
-        return (
-            6 * self.steps
-            + battery_map[self.battery_level] * 2
-            + location_map[self.location]
-        )
+        """Compute unique hash for the state."""
+        if self.hash_val is None:
+            self.hash_val = hash(self.battery_level)
+        return self.hash_val
 
-    def is_end(self):
-        return True if self.steps == self.max_steps else False
+    def get_valid_actions(self):
+        if self.battery_level == HIGH_BATTERY:
+            return [SEARCH, WAIT]
+        elif self.battery_level == LOW_BATTERY:
+            return [SEARCH, WAIT, RECHARGE]
+        else:
+            return [RECHARGE]
 
-    def next_state(self):
-        new_state = RobotState(
-            self.battery_level,
-            self.location,
-            self.steps,
-            self.max_steps,
-        )
+    def next_state(self, action: Literal[0, 1, 2]):
+        if action == SEARCH:
+            if self.battery_level == HIGH_BATTERY:
+                if np.random.random() < ALPHA:
+                    new_state = RobotState(battery_level=HIGH_BATTERY)
+                else:
+                    new_state = RobotState(battery_level=LOW_BATTERY)
+            elif self.battery_level == LOW_BATTERY:
+                if np.random.random() < BETA:
+                    new_state = RobotState(battery_level=LOW_BATTERY)
+                else:
+                    new_state = RobotState(battery_level=DEAD_BATTERY)
+
+        elif action == WAIT:
+            new_state = RobotState(battery_level=self.battery_level)
+
+        elif action == RECHARGE:
+            new_state = RobotState(battery_level=HIGH_BATTERY)
+
+        else:
+            raise ValueError("Invalid action")
+
         return new_state
 
 
