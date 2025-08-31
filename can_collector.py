@@ -34,7 +34,10 @@ DISCOUNT = 0.9
 
 
 class RobotState:
+    """Robot state with battery level and random outcomes."""
+
     def __init__(self, battery_level):
+        """Initialize state with battery level."""
         self.battery_level = battery_level
         self.hash_val = None
         self.deplete_rng = np.random.random()
@@ -47,6 +50,7 @@ class RobotState:
         return self.hash_val
 
     def get_valid_actions(self):
+        """Return valid actions for current battery level."""
         if self.battery_level == HIGH_BATTERY:
             return [SEARCH, WAIT]
         elif self.battery_level == LOW_BATTERY:
@@ -57,6 +61,7 @@ class RobotState:
             raise ValueError("Invalid battery level")
 
     def next_state(self, action: Literal[0, 1, 2]):
+        """Generate next state based on action and probabilities."""
         if action == SEARCH:
             if self.battery_level == HIGH_BATTERY:
                 if self.deplete_rng < ALPHA:
@@ -85,6 +90,7 @@ class RobotState:
         return new_state
 
     def get_reward(self, action: Literal[0, 1, 2]):
+        """Calculate reward for taking action in this state."""
         if action == SEARCH:
             if self.battery_level == LOW_BATTERY and self.deplete_rng >= BETA:
                 return REWARD_DEAD_BATERY
