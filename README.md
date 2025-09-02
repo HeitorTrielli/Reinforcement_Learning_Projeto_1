@@ -114,13 +114,64 @@ Reward_wait: Recompensa do robô por esperar uma lata chegar a ele
 O problema restringe Reward_search > Reward_wait.
 Além disso, a recompensa por recarregar é sempre 0 e a recompensa por descarregar completamente é sempre -3.
 
-## **exemplo 1:**
+## **Exemplo 1:**
 Alpha = 0.7, 
 Beta = 0.7, 
 Reward_search = 1, 
 Reward_wait = 0.5
 
 **Resultados:**
+
+![Aprendizado1](img/Aprendizado1.png)
+![Tabela1](img/Tabela1.png)
+![Valores1](img/Valores1.png)
+
+**Interpretação:** Julgamos que o problema é muito simples, e portanto o aprendizado do sistema é realizado já nas primeiras iterações do treino, e depois o retorno flutua pela estocasticidade do problema, e pela decisão ser aleatória com probabilidade 0.3. 
+
+Com as condições que definimos, é natural que a escolha ótima para o estado low seja carregar, pois apesar da probabilidade de ir de low para dead procurando não ser muito grande (0.3), a penalidade de ir para dead é muito maior do que a recompensa por procurar. Além disso, a recompensa por esperar é baixa relativa a de procurar, e portanto não vale a pena receber a recompensa por esperar e continuar não procurando.
+
+É natural que os valores estimados para os estados low e dead sejam iguais, já que a decisão ótima para os dois estados é carregar (e portanto, geram a mesma recompensa com a mesma probabilidade). E, obviamente, o valor estimado para o estado com a bateria cheia é o maior, já que ele permite mais ações com boas recompensas.
+
+## **Exemplo 2:**
+Alpha = 0.5, 
+Beta = 0.3, 
+Reward_search = 1, 
+Reward_wait = 0.8
+
+
+**Resultados:**
+
+![Aprendizado2](img/Aprendizado2.png)
+![Tabela2](img/Tabela2.png)
+![Valores2](img/Valores2.png)
+
+**Interpretação:** Novamente, julgamos que o problema é muito simples, e portanto o aprendizado do sistema é realizado já nas primeiras iterações do treino, e depois o retorno flutua devido às probabilidades associadas às ações. 
+
+Com as condições que definimos, faz sentido que a melhor decisão no estado low seja esperar, pois a recompensa associada a esperar é quase igual à recompensa de procurar, e portanto não vale a pena para o agente “perder tempo” carregando. Além disso, a punição por descarregar é muito grande comparada com a recompensa de procurar, então faz sentido que procurar seja a pior decisão possível no estado low. 
+
+Faz sentido que o valor estimado de low seja maior que o de dead, pois o dead precisa “perder um tempo” carregando, e demora mais até ganhar uma recompensa. Novamente o melhor estado é o high, que permite procurar e esperar com retornos esperados muito parecidos. 
+
+## **Exemplo 3:**
+Alpha = 0.3, 
+Beta = 0.9, 
+Reward_search = 5, 
+Reward_wait = 0.1
+
+
+
+**Resultados:**
+
+![Aprendizado3](img/Aprendizado3.png)
+![Tabela3](img/Tabela3.png)
+![Valores3](img/Valores3.png)
+
+**Interpretação:** Novamente, julgamos que o problema é muito simples, e portanto o aprendizado do sistema é realizado já nas primeiras iterações do treino, e depois o retorno flutua.
+
+Com essas condições, a recompensa por explorar é tão alta que o agente aprende a explorar mesmo no estado low, arriscando ser punido por acabar a bateria. A recompensa por esperar é muito baixa, e assim o retorno esperado por carregar em low e dead é muito parecido ao retorno de esperar em high. Assim, o retorno esperado de wait em low é o menor de todos. 
+
+Novamente o estado low vale mais que dead, pois o retorno esperado por carregar (única ação em dead) é menor que o retorno de uma ação em low (no caso, explorar). Como nos outros casos, high é o estado com o maior valor associado.
+
+
 
 
 
