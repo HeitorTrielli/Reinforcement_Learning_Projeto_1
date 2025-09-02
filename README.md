@@ -24,7 +24,7 @@ Uma última observação é que decidimos adicionar duas features além do propo
 
 Classe que representa o que o agente entende como ambiente. No caso do problema, o estado do robô. Para ela, definimos as seguintes funções:
 
-1) __init__: Função de inicialização da classe. Cada vez que criamos um robot state sorteamos dois números aleatórios em [0,1). O primeiro deles, deplete_rng será usado para verificar se o robô mudou de estado a partir de sua ação, seguindo a probabilidade disso acontecer. O segundo deles, reward_rng será usado para verificar se o robô recebeu uma recompensa a partir de sua ação, seguindo a probabilidade disso acontecer.
+1) \_\_init\_\_: Função de inicialização da classe. Cada vez que criamos um robot state sorteamos dois números aleatórios em [0,1). O primeiro deles, deplete_rng será usado para verificar se o robô mudou de estado a partir de sua ação, seguindo a probabilidade disso acontecer. O segundo deles, reward_rng será usado para verificar se o robô recebeu uma recompensa a partir de sua ação, seguindo a probabilidade disso acontecer.
 
 2) hash: Função usada para criar um identificador único do estado (de acordo com o nível de bateria).
 
@@ -38,7 +38,7 @@ Classe que representa o que o agente entende como ambiente. No caso do problema,
 
 Depois, definimos a classe RobotAgent, que é o agente de aprendizado por reforço que interage com o ambiente (RobotState). Para ela, temos as seguintes funções principais:
 
-1) __init__: Função de inicialização da classe. Nela incluímos os parâmetros de aprendizado (taxa de aprendizado, exploração na política epsilon-greedy, fator de desconto) e iniciamos estimativas arbitrárias para o valor de cada estado, a serem atualizadas pelo aprendizado.
+1) \_\_init\_\_: Função de inicialização da classe. Nela incluímos os parâmetros de aprendizado (taxa de aprendizado, exploração na política epsilon-greedy, fator de desconto) e iniciamos estimativas arbitrárias para o valor de cada estado, a serem atualizadas pelo aprendizado.
 
 2) update_model: Função que atualiza o modelo aprendido do ambiente de acordo com a experiência, ou seja, registra quantas vezes cada par (estado, ação) levou a determinados próximos estados e quais recompensas foram recebidas por essas transições.
 
@@ -54,7 +54,7 @@ Depois, definimos a classe RobotAgent, que é o agente de aprendizado por refor�
 
 Temos também a classe CanCollectionJudger, que serve como controladora do ambiente e coordenadora da interação agente-ambiente. Para ela temos as seguintes funções:
 
-1) __init__: Função que recebe o agente como parâmetro, e inicializa o estado atual, contador de passos e recompensa total do episódio.
+1) \_\_init\_\_: Função que recebe o agente como parâmetro, e inicializa o estado atual, contador de passos e recompensa total do episódio.
 
 2) reset: Função que prepara um novo episódio do jogo do robô, inicializando ele com a bateria alta, e zerando os contadores de recompensa e passos.
 
