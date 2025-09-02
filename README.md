@@ -97,19 +97,19 @@ Por fim, definimos a classe CanCollectionJudger, que serve como controladora do 
 
 Depois de programar o código para modelar o problema, resolvemos testá-lo com três conjuntos de parâmetros diferentes, usando o matplotlib para visualizar os resultados. Usamos os parâmetros do sistema fixos epsilon = 0.3, taxa de aprendizado = 0.1, número de passos de cada jogo = 50 e 1000 jogos para cada treino.
 
-Os parâmetros do jogo mudados para testar o programa são:
+## **Parâmetros do jogo mudados para testar o programa:**
 
 **Parâmetros de probabilidade de mudança de estado dada uma ação:**
 
-Alpha: Probabilidade do robô continuar no estado HIGH_BATTERY se ele escolher explorar nesse estado.
+1) Alpha: Probabilidade do robô continuar no estado HIGH_BATTERY se ele escolher explorar nesse estado.
 
-Beta:  Probabilidade do robô continuar no estado LOW_BATTERY se ele escolher explorar nesse estado
+2) Beta:  Probabilidade do robô continuar no estado LOW_BATTERY se ele escolher explorar nesse estado
 
 **Recompensas:**
 
-Reward_search: Recompensa do robô por explorar
+1) Reward_search: Recompensa do robô por explorar
 
-Reward_wait: Recompensa do robô por esperar uma lata chegar a ele
+2) Reward_wait: Recompensa do robô por esperar uma lata chegar a ele
 
 
 O problema restringe Reward_search > Reward_wait.
