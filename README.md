@@ -2,6 +2,7 @@
 
 
 Grupo: Heitor Trielli e Francisco Kuchpil
+
 Aprendizado por reforço
 
 
